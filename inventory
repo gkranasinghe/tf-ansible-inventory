@@ -1,0 +1,5 @@
+[vm-web]
+instance-0 ansible_host=54.160.175.26
+instance-1 ansible_host=184.73.63.93
+instance-2 ansible_host=18.205.234.77
+
