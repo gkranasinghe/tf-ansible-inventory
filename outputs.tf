@@ -1,19 +1,19 @@
 output "public_ips" {
-  description = "The ID of the instance"
+  description = "The public ips of the instance"
  value = [
     for instance in module.ec2_instances : instance.public_ip
   ]
 }
 
 output "host_names" {
-  description = "The ID of the instance"
+  description = "The host names of the instance"
  value = [
     for instance in module.ec2_instances : instance.tags_all.Name
   ]
 }
 
-output "vm_web" {
-  description = "vm_web"
+output "ansible_hosts" {
+  description = "ansible inventory file contents "
   value = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] )
 }
 

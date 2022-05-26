@@ -27,6 +27,3 @@ provider "local" {
 }
 
 
-provider "null" {
-  # Configuration options
-}
