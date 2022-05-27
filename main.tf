@@ -91,30 +91,21 @@ module "frontend-sg" {
   description = "Security group for SSH access"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks      = ["10.10.0.0/16"]
-  ingress_rules            = ["https-443-tcp"]
+
+
   ingress_with_cidr_blocks = [
     {
-      from_port   = 8080
-      to_port     = 8090
-      protocol    = "tcp"
-      description = "User-service ports"
-      cidr_blocks = "10.10.0.0/16"
-    },
-    {
-      rule        = "postgresql-tcp"
+      rule        = "ssh-tcp"
       cidr_blocks = "0.0.0.0/0"
     },
   ]
 }
 
 resource "local_file" "inventory" {
+  
   filename = "inventory"
-  content = templatefile("template-inventory.tpl",
+  content = templatefile( "${file("${path.module}/template-inventory.tpl")}",
     {
-      vm_web = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] ) #,
-      
-      # vm_api = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] ),
-      # vm_db = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] )
+      vm_web = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] ) 
   })
 }

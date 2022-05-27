@@ -12,8 +12,8 @@ output "host_names" {
   ]
 }
 
-output "ansible_hosts" {
+output "ansible_inventory" {
   description = "ansible inventory file contents "
-  value = zipmap([ for instance in module.ec2_instances : instance.tags_all.Name], [ for instance in module.ec2_instances : instance.public_ip] )
+  value = local_file.inventory.content
 }
 
